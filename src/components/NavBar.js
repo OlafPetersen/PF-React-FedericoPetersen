@@ -1,5 +1,6 @@
 import "bulma/css/bulma.css";
 import IconImage from "../image/Chantina-10.png";
+import { Link } from "react-router-dom";
 
 function NavBar() {
 
@@ -19,29 +20,39 @@ return (
   
     <div id="navbarBasicExample" className="navbar-menu">
       <div className="navbar-start">
-        <a className="navbar-item">
+        <Link to={"/"}>
+          <a className="navbar-item">
           Inicio
         </a>
-  
+        </Link>
+
+        <Link to={"/"}>
         <a className="navbar-item">
           Nosotros
         </a>
-  
+        </Link>
         <div className="navbar-item has-dropdown is-hoverable">
+          <Link  to={"/Productos"} >
           <a className="navbar-link">
             Catalogo
           </a>
-  
+          </Link>
           <div className="navbar-dropdown">
+            <Link to={"../pages/Productos.js"}>
             <a className="navbar-item">
               Telas
             </a>
+            </Link>
+            <Link to={"../pages/Productos.js"}>
             <a className="navbar-item">
               Diseños
             </a>
+            </Link>
+            <Link to={"../pages/Productos.js"}>
             <a className="navbar-item">
-              Personalizados 
+              Personalizados
             </a>
+            </Link>
             <hr className="navbar-divider"/>
             <a className="navbar-item">
               Contactanos
