@@ -1,33 +1,58 @@
-// import { useEffect, useState } from "react";
-// import { getProducts } from "../../asyncMock";
-// import ItemList from '../ItemList/ItemList';
-// import { useParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import './ItemsListContainer.css';
+import ItemList from '../ItemList/ItemLits';
+import { useParams } from 'react-router-dom';
+import { collection, doc, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 
-// const ItemListContainer = ({greeting}) => { 
-//     const [products, setProducts] = useState([])
 
-//     const { categoryId } = useParams()
+const ItemListContainer = ({ greeting }) => {
 
-//     useEffect(() => {
-//         const asyncFunc = categoryId ? getProductsByCategory : getProducts
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true)
+    const { categoryId } = useParams()
 
-//     asyncFunc(categoryId)
-//         .then(response => {
-//             setProducts(response)
-//         })
-//         .catch(error => {
-//             console.error(error)
-//         })
-//     }, [categoryId])
+    useEffect(() =>{
+        const collectionRef = collection(db, 'products');
+
+        const q = categoryId ? query(collectionRef, where("category", "==", categoryId)) : collectionRef;
+
+        getDocs(q)
+        .then((response)=>{
+
+            setProducts(
+                response.docs.map((doc)=>{
+                    return {...doc.data(), id: doc.id}
+                })
+            )
+        })
+    }, [categoryId])
+
+        
+        
+
+
+
     
-    
-//     return (
-//         <div>
-//             <h1>{greeting}</h1>
-//             <ItemList products={products}/>
-//         </div>
-//     )
-// }
 
-// export default ItemListContainer;
+    return (
+        <div className="Title-S">
 
+            <h1 className="Title">{greeting} </h1>
+
+
+
+            <section className='TitleContainer'>
+                <ItemList products={products} />
+
+            </section>
+
+
+        </div>
+
+    )
+
+
+}
+
+export default ItemListContainer;
